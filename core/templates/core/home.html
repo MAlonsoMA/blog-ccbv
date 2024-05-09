@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+{% load static %} 
+
+{% block content %}
+
+{% include 'core/includes/submenu.html' %}
+
+{% for post in post_list %}
+
+  {% if forloop.first and page_obj.number == 1 %}
+    {% if request.path == '/' %}
+      <div class="p-4 p-md-5 mb-4 rounded text-bg-info">
+          <div class="col-md-12 px-0">
+            <h1 class="display-4 fst-italic text-white">{{post.title}}</h1>
+            <p class="lead my-3">{{post.excerpt}}</p>
+            <p class="lead mb-0"><a href="{% url 'post' post.id %}" class="text-white fw-bold">Seguir leyendo...</a></p>
+          </div>
+      </div>
+    {%endif%}
+    {%else%}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-5">
+          <img src={{ post.image.url }} class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-7">
+          <div class="card-body">
+            <a href={% url 'category' %}?cat={{post.category.id}}>{{ post.category }}</a>
+            <h4 class="my-1">{{ post.title }}</h4>
+            <p class="blog-post-meta mb-1">{{ post.created|date:"d/m/Y. H:i" }}, por <a href={% url 'author' %}?aut={{post.author.id}}>{{ post.author }}</a></p>
+            <p class="card-text mb-auto">{{ post.excerpt }}</p>
+            <p class="card-text"><small class="text-muted"><a href={% url 'post' post.id %}>Seguir leyendo</a></small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%endif%}
+{% endfor %}
+
+<!-- NAVEGACION ENTRE ARTICULOS MAS ANTIGUOS - PAGINACION -->
+<hr>
+<nav aria-label="...">
+  <ul class="pagination justify-content-center">
+    
+    <li class="page-item">
+      <a class="page-link" href="?page=1">Inicio</a>
+    </li>
+
+    {% if page_obj.has_previous %}
+      <li class="page-item {% if page_obj.number == 1 %}disabled{% endif %}">
+        <a class="page-link" href="{% if page_obj.number != 1 %}?page={{ page_obj.previous_page_number }}{% endif %}">Anterior</a>
+      </li>
+    {% endif %}
+
+
+    <li class="page-item">
+      <p class="page-link text-danger">Página {{page_obj.number}} de {{page_obj.paginator.num_pages}}</p>
+
+    {% if page_obj.has_next %}
+      <li class="page-item {% if page_obj.number == page_obj.paginator.num_pages %}disabled{% endif %}">
+        <a class="page-link" href="{% if page_obj.number != page_obj.paginator.num_pages %}?page={{ page_obj.next_page_number }}{% endif %}">Siguiente</a>
+      </li>
+    {% endif %}
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Ultima</a>
+    </li>
+  </ul>
+</nav>
+<hr>
+
+{% if request.path != '/' %}
+  <div class="my-3">
+    <a class="btn btn-success rounded-pill" href="index.html">Volver al Inicio</a>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="alert alert-success" role="alert">
+    <h6>Resultados de la búsqueda '{{queryset}}': {{posts|length}}</h6>
+</div>
+{% if queryset and posts %}
+    {% for post in posts %}
+
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-5">
+                <img src="{{post.image.url}}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-7">
+                <div class="card-body">
+                    <a href={% url 'category' %}?cat={{post.category.id}}>{{ post.category }}</a>
+                    <h4 class="mb-0">{{post.title}}</h4>
+                    <p class="blog-post-meta mb-1">{{ post.created|date:"d/m/Y. H:i" }}, por <a href={% url 'author' %}?aut={{post.author.id}}>{{ post.author }}</a></p>
+
+                    <p class="card-text mb-auto">{{post.excerpt}}</p>
+                    <p class="card-text"><small class="text-muted"><a href="{%url 'post' post.id %}">Seguir leyendo...</a></small></p>
+                </div>
+                </div>
+            </div>
+            </div>
+
+    {% endfor %}
+{% else %}
+    <div class="my-3 alert alert-danger" role="danger">
+        <strong>No hay resultados para su búsqueda</strong>
+    </div>
+    
+
+{% endif %}
+
+<hr>
+
+{% if request.path != '/' %}
+<div class="my-3">
+    <a class="btn btn-success rounded-pill" href="{% url 'home' %}">Volver al inicio</a>
+</div>
+{%endif%}
+
+{% endblock %}
