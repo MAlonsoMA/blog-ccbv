@@ -155,3 +155,10 @@ def search(request):
         posts={}
 
     return render(request,'core/search.html',{'posts':posts,'queryset':queryset})
+
+#Allauth
+def profile(request):
+    return render(request, 'account/profile.html')
+
+def password_change(request):
+    return render(request, 'account/password_change.html')

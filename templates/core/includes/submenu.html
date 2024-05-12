@@ -1,0 +1,27 @@
+{% load static %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+
+<nav class="pt-0 navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <div class="dropdown text-start ms-0 mb-2">
+            {% if request.user.is_authenticated %}
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                Acciones con los posts</a>
+            {%endif%}
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                {% if request.user.is_staff  %}
+                    <li><a class="dropdown-item" href="{% url 'create' %}">Crear</a></li>
+                    <li><a class="dropdown-item" href="{% url 'home' %}">Listar</a></li> 
+                {%endif%}
+                
+                {%if request.user == post.author and request.user.is_staff%}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'update' post.id %}">Editar</a></li> 
+                    <li><a class="dropdown-item" href="{% url 'delete' post.id %}">Eliminar</a></li>     
+                {% endif %}    
+            </ul>          
+        </div>
+    </div>
+</nav>

@@ -22,7 +22,7 @@ admin.site.register(Tag, TagAdmin)
 # POST
 class PostAdmin(admin.ModelAdmin):
 	readonly_fields = ('created', 'updated')
-	list_display = ('title', 'category', 'published', 'author', 'created', 'post_tags')
+	list_display = ('title', 'category', 'published', 'author', 'image', 'created', 'post_tags')
 	ordering = ('author', '-created')
 	search_fields = ('title', 'content', 'author__username', 'category__name')
 	list_filter = ('author', 'category', 'tags')

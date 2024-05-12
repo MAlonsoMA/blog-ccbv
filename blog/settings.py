@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from django.conf import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,9 +34,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'core.apps.CoreConfig',
     'ckeditor',
+    'crispy_forms',
+    "crispy_bootstrap5",
+
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -45,14 +55,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'blog.urls'
+#ROOT_URLCONF = 'djangoAllauth.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +79,14 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'blog.wsgi.application'
@@ -195,3 +215,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
     }
 }
  """
+if DEBUG:
+    # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST='smtp.gmail.com'
+    EMAIL_PORT=587
+    EMAIL_HOST_USER='manuelalonsoweb@gmail.com'
+    EMAIL_HOST_PASSWORD='ebre lvuf ywig kxcy'
+    EMAIL_USE_TLS=True
+
+# Redirección del usuario cuando es autenticado (logueado)
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+# Ruta adonde va a parar el usuario logueado
+LOGIN_REDIRECT_URL = 'home'
+
+# Sistema de autenticación que permite que el usuario ingrese el nombre de usuario o el email con el que se registró
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+# Determina que el registro necesita si o si de un email
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Se puede registrar un unico email por usuario (no se puede repetir)
+ACCOUNT_UNIQUE_EMAIL = True
+
+# Hace que sea obligatorio verificar la cuenta haciendo clic en el link que se envía por correo
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Cantidad de días en los que se puede hacer click en el link de autenticación
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+
+# Hacer que al cerrar la sesión, no se pase a una ventana de verificación de cierre de sesión
+ACCOUNT_LOGOUT_ON_GET = True

@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import dates, search, LikeView,HomeListView,PostDetailView,CategoryListView,AuthorListView,PostCreateView,PostUpdateView,PostDeleteView,AboutPageView
+from .views import profile, password_change
 
 urlpatterns = [
     #PAGINA DE INICIO
@@ -34,4 +35,8 @@ urlpatterns = [
 
     #Filtrado por busqueda
     path('search/', search, name='search'),
+
+    #estaban en core de Allauth
+    path('accounts/profile/', profile, name='profile' ),
+    path('accounts/password/change/', password_change, name='account_change_password' ),
 ]
