@@ -1,3 +1,4 @@
+import shutil
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
@@ -11,6 +12,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.views.generic.base import TemplateView
 from django.db.models import Q
+import os
 
 from .forms import PostForm
 
@@ -132,6 +134,21 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('home')
+    #esto es para borrar foto y directorio desde aquí. esta deshabilitado porque lo hago desde signals.py
+"""     def form_valid(self,form):
+        post=self.get_object()
+        if post.image and post.image.name != "default.jpg":
+            image_path=post.image.path
+            image_dir=os.path.dirname(image_path)
+
+            #eliminar la imagen
+            if os.path.isfile(image_path):
+                os.remove(image_path)
+
+            #eliminar la carpeta si esta vacia
+            if not os.listdir(image_dir):
+                shutil.rmtree(image_dir)
+        return super().form_valid(form) """
 
 
 # Página About

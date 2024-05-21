@@ -29,7 +29,7 @@
         {% if user.is_authenticated  %}
             <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
             <li><a class="dropdown-item" href="{% url 'about' %}">Acerca de nosotros...</a></li>
-            <li><a class="dropdown-item" href="">Contacto</a></li>
+            <li><a class="dropdown-item" href="#">Contacto</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
         {% else %}
@@ -129,9 +129,9 @@
               </ol>
             </div>
             
-            <div class="p-4 mb-3 bg-light rounded">
+<!--             <div class="p-4 mb-3 bg-light rounded">
               <a href="{% url 'about' %}">Acerca de nosotros</a>
-            </div>
+            </div> -->
           
           </div>
         </aside>
