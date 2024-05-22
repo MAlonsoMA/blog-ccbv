@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block title %} Contacto {% endblock %}
+
+{% block content %}
+
+<h1 class="display-6 mb-0">Contacto</h1>
+<h5 class="fs-5">Asesoría personal
+
+<div class="row mt-4 gx-5">
+    <div class="col-md-12 ">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre y apellidos</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                {{ form.message }}
+                {{ form.message.errors }}
+            </div>
+            <input class="btn btn-primary mb-5" type="submit" value="Enviar Mensaje" {% if 'ok' in request.GET %}disabled{% endif %}{% if 'error' in request.GET %}disabled{% endif %}>
+        </form>
+
+        {% if 'ok' in request.GET %}
+            <div class="alert alert-success" role="alert">
+                <strong>El mensaje se ha enviado correctamente</strong>
+            </div>
+            <p class="fs-6 px-0 mt-3 mb-3">Nos pondremos en contacto contigo en el menor tiempo posible</p>
+        {% endif %}
+
+        {% if 'error' in request.GET %}
+            <div class="alert alert-danger mt-5" role="alert">
+                <strong>El mensaje no ha podido ser enviado. Por favor, intente más tarde</strong>
+            </div>
+        {% endif %}
+
+    </div>
+    
+    <div class="col-lg-6 my-2">
+        {{ map|safe }}
+    </div>
+    
+    <div class="col-lg-6">
+        <h6 class="my-2">Puntos de contacto presenciales</h6>
+        <ol class="list-group ">
+            {% for location in locations %}
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-1">
+                <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ location.name }}</div>
+                {{ location.address }}
+                </div>
+            </li>
+            {% endfor %}
+            <span class="mb-3"></span>
+        </ol>
+    </div>
+</div>
+ 
+{% endblock %}
