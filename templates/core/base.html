@@ -31,6 +31,7 @@
           <li><a class="dropdown-item" href="{% url 'about' %}">Acerca de nosotros...</a></li>
           <li><a class="dropdown-item" href="{% url 'contact' %}">Contacto</a></li>
           <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil usuario</a></li>
           <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
           {% else %}
           <li><a class="dropdown-item" href="{% url 'account_login' %}">Iniciar Sesión</a></li>
@@ -47,7 +48,7 @@
     <main class="mt-2">
       <section class="row g-5">
         <!-- TODOS LOS POSTS -->
-        <div class="col-md-8">
+        <div class="col-10 col-md-8 mx-auto">
             {% block content %} {% endblock %}
         </div>
 

@@ -22,23 +22,26 @@
         <span class="badge text-bg-info mb-3">{{ tag.name|upper }}</span>
     {% endfor %}
 
+    <br><br>
+    
     <form action="{% url 'like_post' post.pk %}" method="post">
         {% csrf_token %}
 
         {% if user.is_authenticated %}
             {% if liked %}
-                <button type="submit" class="btn btn-sm btn-danger mt-0" name="post_id" value="{{ post.id }}">
-                    No Me Gusta <span class="badge bg-secondary mt-0">{{ total_likes }}</span>
+                <button type="submit" class="btn btn-smn btn-danger" name="post_id", value="{{post.id}}">
+                    No me gusta <span class="badge bg-secondary">{{total_likes}}</span>
                 </button>
             {% else %}
-                <button type="submit" class="btn btn-sm btn-primary" name="post_id" value="{{ post.id }}">
-                    Me Gusta <span class="badge bg-secondary mt-0">{{ total_likes }}</span>
+                <button type="submit" class="btn btn-smn btn-primary" name="post_id", value="{{post.id}}">
+                    Me gusta <span class="badge bg-secondary">{{total_likes}}</span>
                 </button>
             {% endif %}
         {% else %}
             <small>Debe estar logueado para dar Me Gusta - Total de Me Gusta: <strong>{{ total_likes }}</strong> </small>
         {% endif %}
     </form>
+
 </article>
 
 <div class="my-3">

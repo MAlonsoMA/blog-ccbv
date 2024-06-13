@@ -34,6 +34,18 @@ class HomeListView(ListView):
 class PostDetailView(DetailView):
     model=Post
     template_name='core/detail.html'
+    context_object_name='post'
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        post=self.get_object()
+        total_likes=post.total_likes()
+        liked=False
+        if post.likes.filter(id=self.request.user.id).exists():
+            liked=True
+        context['total_likes']=total_likes
+        context['liked']=liked
+        return context
 
 
 # Filtrado por Categoría
