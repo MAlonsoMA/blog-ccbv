@@ -3,7 +3,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from .models import Post, Category
+from .models import Post, Category, Tag
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -62,7 +62,21 @@ class CategoryListView(ListView):
         context=super(CategoryListView,self).get_context_data(**kwargs)
         context['category']=Category.objects.get(id=self.request.GET['cat'])
         return context
-
+    
+# Filtrado por Etiqueta
+class TagListView(ListView):
+    model:Tag
+    template_name='core/tag.html'
+    
+    def get_queryset(self):
+        tag_id=self.request.GET['tag']
+        if tag_id:
+            return Post.objects.filter(tags=tag_id)
+        return super().get_queryset()
+    def get_context_data(self, **kwargs):
+        context=super(TagListView,self).get_context_data(**kwargs)
+        context['tag']=Tag.objects.get(id=self.request.GET['tag'])
+        return context
 
 # Filtrado por Author
 class AuthorListView(ListView):
@@ -103,7 +117,6 @@ def dates(request, month_id, year_id):
     posts = Post.objects.filter(published=True, created__month=month_id, created__year=year_id)
     return render(request, 'core/dates.html', {'posts':posts, 'month':meses[month_id], 'year':year_id})
 
-
 # Likes en un post
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -115,7 +128,6 @@ def LikeView(request, pk):
 
     return HttpResponseRedirect(reverse('post', args=[str(pk)]))
 
-
 # Crear post
 class PostCreateView(CreateView):
     model=Post
@@ -126,7 +138,6 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
     
     success_url=reverse_lazy('home')
-
 
 # Editar el post
 class PostUpdateView(UpdateView):
@@ -146,22 +157,6 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('home')
-    #esto es para borrar foto y directorio desde aquí. esta deshabilitado porque lo hago desde signals.py
-"""     def form_valid(self,form):
-        post=self.get_object()
-        if post.image and post.image.name != "default.jpg":
-            image_path=post.image.path
-            image_dir=os.path.dirname(image_path)
-
-            #eliminar la imagen
-            if os.path.isfile(image_path):
-                os.remove(image_path)
-
-            #eliminar la carpeta si esta vacia
-            if not os.listdir(image_dir):
-                shutil.rmtree(image_dir)
-        return super().form_valid(form) """
-
 
 # Página About
 class AboutPageView(TemplateView):

@@ -57,8 +57,8 @@ class Post(models.Model):
 	# Campos con relaciones
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='get_posts', verbose_name='Categoría')
 	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='get_posts', verbose_name='Autor')
-	tags = models.ManyToManyField(Tag, verbose_name='Etiquetas')
-	likes = models.ManyToManyField(User, related_name='blog_posts', verbose_name='Me Gusta')
+	tags = models.ManyToManyField(Tag, blank=True, verbose_name='Etiquetas')
+	likes = models.ManyToManyField(User, related_name='blog_posts', blank=True, verbose_name='Me Gusta')
 	created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
 	updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
 
