@@ -3,12 +3,16 @@
 
 {% block content %}
 
-<div class="mb-5">
-    <h2>Acerca de nosotros</h2>
-    <div class="mt-1">
-        <p class="mb-0">{{ ABOUT }}</p>
+<article class="blog-post mb-1">
+    <div class="col-auto d-lg-block">
+        <h2>Acerca de nosotros</h2>
+        <div class="mt-1">
+            <p class="mb-0">{{ ABOUT.description }}</p>
+            <img src={{ ABOUT.image.url }} class="img-fluid" alt="">
+            <p class="mb-0">{{ ABOUT.content }}</p>
+        </div>
     </div>
-</div>
+</article>
 <div class="my-3">
     <a class="btn btn-success rounded-pill" href={% url 'home' %}>Volver al Inicio</a>
 </div>

@@ -147,6 +147,97 @@
     </footer>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <script>
+      /*VIDEOS EN YOUTUBE de Mozart García
+      https://www.youtube.com/watch?v=5dADXVose0M
+      https://www.youtube.com/watch?v=yv-VXqLDjUc&t=473s*/
+    
+      window.addEventListener("load", function(){
+      document.getElementById("input-search").addEventListener("input",onInputChange);
+      for (let i = 0; i < th.length; i++){
+          th[i].addEventListener('click', headerClicked)
+      }
+      });
+      const th=document.getElementsByTagName("th");
+    
+      function headerClicked(e){
+          const sortColumn = e.target.cellIndex !== undefined ? e.target.cellIndex : e.target.parentNode.cellIndex;
+          const icons=document.querySelectorAll(".th-icon");
+          icons.forEach(icon=>{
+            if (icon.classList.contains("th-icon-active")){
+              icon.classList.remove("th-icon-active");
+          }
+            if(icon.parentNode.cellIndex === sortColumn){
+              icon.classList.add("th-icon-active");
+          }
+        })
+          sortTableByColumn(sortColumn);
+      }
+    
+      function sortTableByColumn(sortColumn){
+        const tableBody=document.getElementById("tbody-id");
+        const rows=Array.from(tableBody.rows);
+        var ascClass=tableBody.classList.contains("asc");
+        var asc = !ascClass ? true : false;
+        if (asc === true && sortColumn !== 4){
+          var sortedRows=rows.sort(function(a,b){
+            const aText=a.cells[sortColumn].textContent;
+            const bText=b.cells[sortColumn].textContent;
+            return aText.localeCompare(bText, 'es', { numeric: true });
+          });
+        }
+        if (asc === false && sortColumn !== 4){
+          var sortedRows=rows.sort(function(a,b){
+            const aText=a.cells[sortColumn].textContent;
+            const bText=b.cells[sortColumn].textContent;
+            return bText.localeCompare(aText, 'es', { numeric: true });
+          });
+        }
+        if (asc === true && sortColumn === 4){
+          console.log('Ascendente y por fecha');
+          var sortedRows=rows.sort(function(a,b){
+            const aText=a.cells[sortColumn].textContent;
+            const bText=b.cells[sortColumn].textContent;
+            const aDate=aText.split('/').reverse().join();
+            const bDate=bText.split('/').reverse().join();
+            return new Date(aDate) - new Date(bDate);
+          });
+        }
+        if (asc !== true && sortColumn === 4){
+          var sortedRows=rows.sort(function(a,b){
+            const aText=a.cells[sortColumn].textContent;
+            const bText=b.cells[sortColumn].textContent;
+            const aDate=aText.split('/').reverse().join();
+            const bDate=bText.split('/').reverse().join();
+            return new Date(bDate) - new Date(aDate);
+          });
+        }
+        tableBody.innerHTML="";
+        sortedRows.forEach(row=>{
+          tableBody.appendChild(row);
+        });
+        if (asc === true ){
+          tableBody.classList.add("asc");
+        } else{
+          tableBody.classList.remove("asc");
+        }
+      }
+      
+      function onInputChange(){
+        let inputText = document.getElementById("input-search").value.toString().toLowerCase();
+        let tableBody=document.getElementById("tbody-id");
+        let tableRows=tableBody.getElementsByTagName("tr");
+        for (let i = 0; i < tableRows.length; i++){
+          let textoConsulta = tableRows[i].cells[1].textContent.toString().toLowerCase();
+          if(textoConsulta.indexOf(inputText) === -1){
+            tableRows[i].style.visibility = "collapse";
+          } else{
+            tableRows[i].style.visibility = "";
+          }
+        }
+      }
+    </script>
 </body>
 </html>
 

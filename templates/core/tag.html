@@ -8,23 +8,28 @@
         <div class="alert alert-success" role="alert">
             <h6>Posts con la etiqueta <span class="badge text-bg-info"> {{ tag.name|upper }}</span> : {{post_list|length}}</h6>
         </div>
-    {%endif%}
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-5">
-                <img src={{ post.image.url }} class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-7">
-                <div class="card-body">
-                    <strong class="d-inline-block mb-2 text-primary">{{ post.category }}</strong>
-                    <h4 class="mb-0">{{ post.title }}</h4>
-                    <div class="my-1 text-muted">{{ post.created|date:"d/m/Y. H:i" }}, por <a href={% url 'author' %}?aut={{post.author.id}}>{{ post.author }}.</a></div>
-                    <p class="card-text mb-auto">{{ post.excerpt }}</p>
-                    <p class="card-text"><small class="text-muted"><a href={% url 'post' post.id %}>Seguir leyendo</a></small></p>
-                </div>
-            </div>
+        <div>
+            <input type="text" class="form-control mt-3" id="input-search" placeholder="Filtrar por título...">
         </div>
-    </div>
+        <table class="table table-light table-striped table-responsive mt-3">
+            <thead>
+                <tr>
+                    <th class="small" scope="col"># <i class="small th-icon bi bi-arrow-down-up"></i></th>
+                    <th class="small" scope="col">Titulo <i class="small th-icon bi bi-arrow-down-up"></i></th>
+                    <th class="small" scope="col">Autor <i class="small th-icon bi bi-arrow-down-up"></i></th>
+                    <th class="small" scope="col">Cat <i class="small th-icon bi bi-arrow-down-up"></i></th>
+                    <th class="small" scope="col">Fecha <i class="small th-icon bi bi-arrow-down-up"></i></th>
+                </tr>
+            </thead>
+            <tbody id="tbody-id">
+    {%endif%}
+            <tr>
+                <td>{{post.id}}</td>
+                <td><a href={% url 'post' post.id %}>{{post.title|truncatewords:6}}</a></td>
+                <td><a href={% url 'author' %}?aut={{post.author.id}}>{{ post.author}}</a></td>
+                <td>{{ post.category}}</td>
+                <td>{{ post.created|date:"d/m/Y"}}</td>
+            </tr>
 
 {% empty %}
 
@@ -33,6 +38,8 @@
     </div>
 
 {% endfor %}
+        </tbody>
+    </table>
 
 <hr>
 
@@ -41,4 +48,5 @@
         <a class="btn btn-success rounded-pill" href={% url 'home' %}>Volver al Inicio</a>
     </div>
 {% endif %}
+  
 {% endblock %}

@@ -135,6 +135,8 @@ class Post(models.Model):
 # MODELO ABOUT
 class About(models.Model):
 	description = models.CharField(max_length=350, verbose_name='Descripción')
+	image = models.ImageField(default='default.jpg',upload_to='about/', verbose_name='Imagen')
+	content = models.TextField(blank=True, null=True,max_length=1350, verbose_name='Contenido')
 	created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
 	updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
 

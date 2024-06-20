@@ -1,3 +1,19 @@
+/*estilos para la cabecera de la tabla de posts*/
+table th:hover{
+  cursor: pointer;
+}
+.th-icon{
+  color: gray;
+  opacity: 69%; 
+}
+.th-icon-active{
+  color:black;
+  opacity: 100%; 
+}
+tr a{
+  text-decoration: none;
+}
+/*fin estilos para la cabecera de la tabla de posts*/
 
 .blog-header-logo:hover {
   text-decoration: none;

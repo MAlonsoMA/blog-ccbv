@@ -21,6 +21,7 @@
     {% for tag in post.tags.all %}
     <a href={% url 'tag' %}?tag={{tag.id}}><span class="badge text-bg-info mb-3">{{ tag.name|upper }}</span></a>
     {% endfor %}
+    <hr>
 
     <form action="{% url 'like_post' post.pk %}" method="post">
         {% csrf_token %}

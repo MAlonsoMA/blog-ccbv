@@ -3,7 +3,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, About
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -160,6 +160,7 @@ class PostDeleteView(DeleteView):
 
 # Página About
 class AboutPageView(TemplateView):
+    model = About
     template_name = "core/about.html"
 
     def get_context_data(self, **kwargs):
